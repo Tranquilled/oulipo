@@ -22,7 +22,7 @@ def clean(filename):
     new_filename = "".join(filename.split(".")[:-1]) + "_clean." + filename.split(".")[-1]
     print(len(words))
     with open(os.path.join(os.getcwd(), new_filename), "w+") as f:
-        f.write("\n".join(words))
+        f.write("\n".join(sorted(words)))
 
 
 def compare(file1, file2):
@@ -34,6 +34,40 @@ def compare(file1, file2):
     new_filename = file1.split("_")[0] + "_n_" + file2.split("_")[0] + ".txt"
     with open(os.path.join(os.getcwd(), new_filename), "w+") as f:
         f.write("\n".join(corpus1.intersection(corpus2)))
+
+
+def line_to_dict(filename):
+    words = dict()
+    with open(os.path.join(os.getcwd(), filename), "r", encoding="utf-8") as f:
+        for line in f:
+            word, _, tags = line.split("\t")
+            word = word.translate(accents)
+            if word in words:
+                words[word].append(tags.rstrip())
+            else:
+                words[word] = [tags.rstrip()]
+    return words
+
+
+def compare_dicts(file1, file2):
+    # Takes full words-with-metadata files
+    corpus1 = line_to_dict(file1)
+    corpus2 = line_to_dict(file2)
+    overlap = corpus1.keys() & corpus2.keys()
+    
+    ## Returns all homonyms
+    # output = ["\t".join([word, corpus1[word], corpus2[word]]) for word in overlap]
+    ## Returns homonyms only if tags sufficiently different
+    output = []
+    for word in overlap:
+        tags1 = [x[0] for x in corpus1[word]]
+        tags2 = [x[0] for x in corpus2[word]]
+        try:
+            if not any (x == y for x in tags1 for y in tags2):
+                output.append("\t".join([word, str(corpus1[word]), str(corpus2[word])]))
+        except Exception as e:
+            print(e)
+    return "\n".join(["\t".join(["word", f"{file1} tags", f"{file2} tags"])] + sorted(output))
 
 
 # def alphabetize(corpus):
@@ -81,23 +115,32 @@ def try_random(file1, file2):
 
 def search_corpus(target, corpus, output):
     # returns [new target], [output]
-    # print(output)
     if target == False:
         return False, output
     elif len(target) == 0:
         return target, output
+    length = len(target)
+    # looking for a corpus word that is a substring of the target
 
-    test = corpus[bisect.bisect(corpus, target) - 1]
+    for i in range(length):
+        insert = bisect.bisect(corpus, target[:i+1])
+        test = corpus[insert - 1]
+        # print(f"input {target[:i+1]}", f"test {test}")
 
-    test_shorter = target.removeprefix(test)
-    if test_shorter != target:
-        print(f"{test} was shorter than {target}.", f"remainder: {test_shorter}", f"output: {output}")
-        return search_corpus(test_shorter, corpus, output)
-
-    test_longer = test.removeprefix(target)
-    if test_longer != test:
-        print(f"{test} was longer than {target}.", f"remainder: {test_longer}", f"output: {output}")
-        return test_longer, output + "|" + test_longer
+        test_shorter = target.removeprefix(test)
+        if test_shorter != target:
+            # print(f"{test} was shorter than {target}.", f"remainder: {test_shorter}", f"output: {output}")
+            return search_corpus(test_shorter, corpus, output)
+        
+        # if no preceding word is found... the succeeding word is necessarily "longer"?
+        try:
+            test = corpus[insert]
+            test_longer = test.removeprefix(target)
+            if test_longer != test:
+                # print(f"{test} was longer than {target}.", f"remainder: {test_longer}", f"output: {output + '|' + test_longer}")
+                return test_longer, output + "|" + test_longer
+        except Exception as e:
+            print(e, test, insert, corpus[insert - 1])
     # no matching words in corpus
     return False, output
 
@@ -108,12 +151,12 @@ def try_methodically(file1, file2):
     for x in corpus1:
         output = x[:]
         unmatched = x[:]
-        print(f"started with {output}")
+        # print(f"started with {output}")
         while len(unmatched) > 0:
             unmatched, output = search_corpus(unmatched, corpus2, output)
             unmatched, output = search_corpus(unmatched, corpus1, output)
             if unmatched == False:
-                print(f"Nothing found for {x}: {output}")
+                print(f"Best try for {x}: {output}")
                 break
         else:
             print(f"Success: {x} gave {output}")
@@ -123,6 +166,10 @@ if __name__ == "__main__":
     ## Cleaning
     # filename = sys.argv[1]
     # clean(filename)
+
+    ## Matching orthography with metadata
+    # file1, file2 = sys.argv[1:]
+    # print(compare_dicts(file1, file2))
 
     ## Direct comparison
     # file1, file2 = sys.argv[1:]
@@ -135,3 +182,5 @@ if __name__ == "__main__":
     ## Binary search
     file1, file2 = sys.argv[1:]
     try_methodically(file1, file2)
+    # corpus1 = sorted(line.strip() for line in open(os.path.join(os.getcwd(), "wfl-en_clean.txt"), "r"))
+    # search_corpus("tocarde", corpus1, "tocarde")
