@@ -6,7 +6,7 @@ import sys
 accents = {224: 'a', 226: 'a', 230: 'ae', 231: 'c', 232: 'e', 233: 'e', \
            234: 'e', 238: 'i', 239: 'i', 244: 'o', 339: 'oe', 249: 'u', \
            251: 'u', 252: 'u', 255: 'y', 95: ''}
-forbidden = re.compile(r"[0-9%'+-]")
+forbidden = re.compile(r"[0-9%'+-_]")
 
 
 def clean(filename):
@@ -113,24 +113,25 @@ def try_random(file1, file2):
         print("TERMINATED", output, unmatched)
 
 
-def search_corpus(target, corpus, output):
-    # returns [new target], [output]
+def search_corpus(target, corpus, output1, output2):
+    # returns [new target], [output from other corpus], [output from this corpus]
     if target == False:
-        return False, output
+        return False, output1, output2
     elif len(target) == 0:
-        return target, output
+        return target, output1, output2
     length = len(target)
     # looking for a corpus word that is a substring of the target
 
     for i in range(length):
-        insert = bisect.bisect(corpus, target[:i+1])
+        # insert = bisect.bisect(corpus, target[:i+1]) # favors shorter words
+        insert = bisect.bisect(corpus, target[:length - i]) # favors longer words
         test = corpus[insert - 1]
         # print(f"input {target[:i+1]}", f"test {test}")
 
         test_shorter = target.removeprefix(test)
         if test_shorter != target:
             # print(f"{test} was shorter than {target}.", f"remainder: {test_shorter}", f"output: {output}")
-            return search_corpus(test_shorter, corpus, output)
+            return search_corpus(test_shorter, corpus, output1, output2 + "|" + test)
         
         # if no preceding word is found... the succeeding word is necessarily "longer"?
         try:
@@ -138,28 +139,31 @@ def search_corpus(target, corpus, output):
             test_longer = test.removeprefix(target)
             if test_longer != test:
                 # print(f"{test} was longer than {target}.", f"remainder: {test_longer}", f"output: {output + '|' + test_longer}")
-                return test_longer, output + "|" + test_longer
+                return test_longer, output1, output2 + "|" + test
         except Exception as e:
-            print(e, test, insert, corpus[insert - 1])
+            return False, output1, output2
     # no matching words in corpus
-    return False, output
+    return False, output1, output2
 
 
 def try_methodically(file1, file2):
     corpus1 = sorted(line.strip() for line in open(os.path.join(os.getcwd(), file1), "r"))
     corpus2 = sorted(line.strip() for line in open(os.path.join(os.getcwd(), file2), "r"))
     for x in corpus1:
-        output = x[:]
+        output1 = x[:]
+        output2 = ""
         unmatched = x[:]
         # print(f"started with {output}")
         while len(unmatched) > 0:
-            unmatched, output = search_corpus(unmatched, corpus2, output)
-            unmatched, output = search_corpus(unmatched, corpus1, output)
+            unmatched, output1, output2 = search_corpus(unmatched, corpus2, output1, output2)
+            unmatched, output2, output1 = search_corpus(unmatched, corpus1, output2, output1)
             if unmatched == False:
-                print(f"Best try for {x}: {output}")
+                # print(f"Best try for {x}: {output1} / {output2}")
                 break
         else:
-            print(f"Success: {x} gave {output}")
+            # remove leading | from second output
+            # column 2: total chars, column 3: corpus 1 words, column 4: corpus 2 words
+            print(f"Success: {x} gave {output1} / {output2[1:]}\t{len(output1.replace('|',''))}\t{output1.count('|')}\t{output2.count('|')-1}") 
 
 
 if __name__ == "__main__":

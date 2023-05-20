@@ -1,0 +1,121 @@
+Interesting words (manual)
+word                                       	english tags                                  	french tags
+
+about                                      	['Sp']                                        	['Ncms']
+abuser                                     	Ncns                                          	Vmn
+agonies                                    	Ncnp                                          	Vmps-pf
+ail                                        	Vmn                                           	Ncms
+as                                         	['Cc', 'Cs', 'Rmp', 'Rsp']                    	['Ncmp', 'Ncms', 'Vaip2s', 'Vmip2s']
+atone                                      	Vmn                                           	Afpms
+atones                                     	['Vmip3s']                                    	['Afpfp', 'Afpmp']
+aura                                       	Ncns                                          	Vmif3s
+averse                                     	['Afp']                                       	['Rgp']
+bail                                       	['Vmn']                                       	['Ncms']
+bee                                        	['Ncns']                                      	['Vmps-sm']
+beer                                       	['Ncns']                                      	['Vmn']
+bees                                       	['Ncnp']                                      	['Vmps-pm']
+blesses                                    	['Vmip3s']                                    	['Ncmp']
+contents                                   	['Ncnp', 'Vmip3s', 'Ncnp']                    	['Afpmp']
+dire                                       	['Af']                                        	['Ncms', 'Vmn']
+four                                       	['Mc']                                        	['Ncms']
+here                                       	['Rmp']                                       	['Ncms']
+if                                         	['Cs']                                        	['Ncms']
+impair                                     	['Vmip-p', 'Vmip1s', 'Vmip2s', 'Vmn']         	['Afpms', 'Ncms']
+lest                                       	['Cs']                                        	['Ncms']
+mere                                       	['Afp']                                       	['Ncfs']
+mute                                       	Ncns                                          	Vmps-sm
+net                                        	Vmn                                           	Afpms
+on                                         	Sp                                            	Pp3msn
+once                                       	Rmp                                           	Ncfs
+plan                                       	Vmn                                           	Ncms
+pour                                       	Vmn                                           	Sp
+probe                                      	['Ncns', 'Vmip-p', 'Vmip1s', 'Vmip2s', 'Vmn'] 	['Afpfs', 'Afpms']
+rampant                                    	Afp                                           	Vmpp
+rang                                       	Vmis                                          	Ncms
+ranger                                     	Ncns                                          	Vmn
+reel                                       	Vmn                                           	Ncms
+rider                                      	['Ncns']                                      	['Vmn']
+riper                                      	['Afc']                                       	['Vmn']
+sale                                       	['Ncns']                                      	['Afpfs', 'Afpms', 'Vmip1s', 'Vmip3s', 'Vmmp2s', 'Vmsp1s', 'Vmsp3s', 'Vmps-sm']
+sang                                       	['Vmis']                                      	['Ncms']
+seize                                      	['Vmn']                                       	['Mc-p']
+supporter                                  	Nc-s                                          	Vmn
+surlier                                    	Afc                                           	Vmn
+taller                                     	Afc                                           	Vmn
+tenant                                     	Ncns                                          	Vmpp
+tendons                                    	Ncnp                                          	Vmmp1p
+tin                                        	Vmn                                           	Ncms
+tonne                                      	Ncns                                          	Vmsp3s
+tore                                       	Vmis                                          	Ncms
+tout                                       	['Vmip-p', 'Vmip1s', 'Vmip2s', 'Vmn']         	['Ai-ms', 'Di-ms', 'Ncms', 'Pi-ms', 'Rgp']
+travesties                                 	Ncnp                                          	Vmps-pf
+verse                                      	['Ncns']                                      	['Vmip1s', 'Vmip3s', 'Vmmp2s', 'Vmsp1s', 'Vmsp3s', 'Vmps-sm', 'Afpms']
+
+
+tore reel
+once mute
+about net
+about atone
+reel mute
+averse to|tale
+averse to|car|de bris
+mere sale
+impair here
+atone here
+verse here
+dire verse
+automate verse
+fond verse
+seize nets
+once grave
+automates contents
+verse grave
+
+English N and French A words are promising
+
+
+Success: airliner gave airliner|able / |air|lin|erable
+Success: avert gave avert|iamb|ages / averti|ambages
+Success: ballerina gave ballerina|babble / |balle|ri|nabab|ble
+Success: barometer gave barometer|able / |bar|omet|erable
+Success: bashed gave bashed|on|is|me / |bas|hedonisme
+barely|seen / bar|elyseen
+Success: beguiled gave beguiled|it / |be|gui|ledit
+Success: bonier gave bonier|able / |boni|erable
+Success: brandished gave brandished|on|is|me / |brandis|hedonisme
+briefest|if / |brie|festif
+Success: center gave center|able / cent|erable  >   centerables
+constraint gave constraint|rain / cons|traintrain
+despite|use / des|piteuse > despiteuses
+Success: dished gave dished|on|is|me / dis|hedonisme
+Success: eve gave eve|cheap|ache / eveche|apache
+Success: finitely gave finitely|seen / finit|elyseen
+Success: foiled gave foiled|it / foi|ledit
+grandpa|cage / grand|pacage
+Success: lento gave lento|as|is / lent|oasis
+Success: maize gave maize|bra / mai|zebra
+mid|iamb|ages / midi|ambages > mid-iamb ages/midi ambages
+Success: nomad gave nomad|age / nom|adage
+Success: orator gave orator|iodine / oratorio|dine
+processor|bet / proces|sorbet
+Success: pupil gave pupil|lead|age / pupille|adage
+unearth|rite / une|arthrite
+
+Success: abandonnames gave abandonnames / abandon|names
+Success: ammoniacal gave ammoniacal|amities / ammonia|calamities
+Success: binent gave binent|ail / bin|entail
+Success: boghei gave boghei|fer / bog|heifer
+Success: dodos gave dodos|age / do|dosage
+Success: forcir gave forcir|cle / for|circle
+Success: hennit gave hennit|rate / hen|nitrate
+Success: labelle gave labelle|adage / label|lead|age
+Success: maraud gave maraud|erable / marauder|able
+Success: menthes gave menthes|au|rus / men|thesaurus
+Success: parfum gave parfum|ble / par|fumble
+Success: processed gave processed|at|if / proces|sedatif
+Success: soins gave soins|ane / so|insane
+stere|oasis / stereo|as|is
+Success: vexons gave vexons|et / vex|onset
+
+
+barelyseen > stereoasis ~ briefestif > despiteuses ~ finitelyseen
